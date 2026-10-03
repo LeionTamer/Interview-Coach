@@ -1,7 +1,8 @@
 # Shared memory contract
 
-`manage-memory` maintains the records in this directory. The planner and coach
-read them and supply updates through the planner. This file defines the contract;
+`manage-memory` maintains the records in this directory. The planner requests
+preparation updates; the directly selected coach requests practice updates.
+Neither primary agent edits records itself. This file defines the contract;
 it is not a candidate record.
 
 ## Files
@@ -54,6 +55,7 @@ Use a section like this for each real topic; placeholders below are explanatory:
 - Next action: <specific practice step>
 - Last updated: <YYYY-MM-DD>
 - Status history: <date, transition, evidence/reason>
+- First encounter: <sessions/YYYY-MM-DD-NN.md#turn-NNN, or none>
 ```
 
 P1 is highest priority. Each target has its own status, depth, and criteria under
@@ -71,7 +73,13 @@ Status is not a one-way progression. A later gap can reopen `completed` as
 `needs-review`, with evidence and a reason. A skipped question alone changes no
 topic status. An explicit user override is labeled self-reported.
 
-## Planner → memory request
+First encounter is per target/topic: it is the earliest recorded question on
+that topic for that target, including a question later skipped. Planning or
+selecting a topic without a question does not count. When an older topic record
+has no first-encounter field, inspect saved session turns before treating it as
+unencountered. Keep the first link even when later practice changes status.
+
+## Planner / coach → memory request
 
 Provide the following named fields as a clear structured message:
 
@@ -85,6 +93,8 @@ Provide the following named fields as a clear structured message:
   planning; the memory agent returns mappings for new topics.
 - `practice`: existing practice ID or `new`, mode (`coaching` or `mock`), topic IDs,
   agreed limits, and state (`active`, `paused`, or `finished`), when applicable.
+  Topic IDs are an ordered selection of at most two distinct topics. On resume,
+  retain the original selection and the topics with recorded questions.
 - `turn`: stable turn ID, question, concise answer evidence, assistance or skip,
   coach assessment, and criteria met/unmet, when applicable.
 - `progress_changes`: recommendations with evidence, never unsupported completion.
@@ -95,8 +105,9 @@ Within a practice, use `turn-001`, `turn-002`, etc. Keep the same turn ID for hi
 and follow-ups that clarify an unanswered question; a new evaluated question gets
 a new turn ID. Each separately saved hint/change has its own update ID.
 
-The memory agent returns verified results and IDs. Only it writes records, and
-the planner waits for each call to finish before starting the next memory call.
+The memory agent returns verified results and IDs. Only it writes records. The
+requesting agent waits for each call to finish before starting the next memory
+call. Do not write from planner and coach conversations concurrently.
 
 ## Session record format
 
@@ -106,6 +117,7 @@ the planner waits for each call to finish before starting the next memory call.
 - Origin update ID: <id>
 - Target: role-NNN
 - Topics: topic-NNN
+- Questioned topics: topic-NNN, or none
 - Mode: coaching | mock
 - State: active | paused | finished
 - Started: <YYYY-MM-DD>
@@ -139,20 +151,23 @@ the planner waits for each call to finish before starting the next memory call.
 Save checkpoints after each evaluated answer and when hints, pauses, or topic
 changes affect resumption. During a mock interview, store assessments but defer
 displaying them until the debrief. Store a pending question before presenting it.
-Saved files allow a new child to recover context without relying on an old child
-session ID. A paused record retains its pending question; a finished one clears it.
+Saved files allow a new coach conversation to recover context without relying
+on another agent's chat history. A paused record retains its pending question;
+a finished one clears it.
+The `Topics` field lists the ordered selection, not proof of an encounter;
+`Questioned topics` is derived from recorded turns, including pending and skipped
+questions. Never record a question on a third distinct topic in one practice.
 
 ## Planner ↔ coach handoff
 
-The first call includes the practice/target/topic IDs, mode, limits, requirements,
-relevant CV evidence, completion criteria, prior assessment, and pending/next turn.
-Continue with the same returned child `sessionID` and forward each answer faithfully.
-After a restart, supply the checkpoint to a new coach if the old child is unavailable.
-
-The coach returns `Candidate message` and `Coordinator notes`. The planner relays
-only the former. Notes include the evaluated turn, evidence, assistance, criteria,
-recommended status, next question, and resumable context. No direct coach-to-user
-tool interaction or coach-to-memory delegation is required.
+The planner saves a target and ordered preparation plan through `manage-memory`.
+The candidate selects the primary `interview-coach` agent to practice directly;
+the planner does not launch the coach, relay turns, or pass hidden session context.
+The coach reads saved profile, plan, and session records, selects at most two
+topics, and requests practice saves through `manage-memory`. On resume it uses
+the saved target, ordered topic IDs, questioned topics, mode, limits, assessment,
+pending question, and next turn ID. A new coach conversation can reconstruct
+practice from that checkpoint without a child `sessionID`.
 
 ## Idempotency and recovery
 
@@ -162,5 +177,6 @@ affected records. A completed update ID is a no-op on retry. For partial updates
 reconcile origin update IDs and turn IDs before finishing missing work.
 
 These are prompt-managed Markdown records, not a transactional database. Use one
-active planner conversation per workspace; cross-session concurrent writes are
-not locked. A failed save must be reported as unsaved and retried with the same ID.
+active preparation or practice writer per workspace; planner/coach concurrent
+writes are not locked. A failed save must be reported as unsaved and retried
+with the same ID.

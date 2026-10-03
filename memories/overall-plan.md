@@ -3,8 +3,8 @@
 ## Current focus
 
 - Active target: role-001 — Qantas Airways Limited, Senior Software Engineer - Front End.
-- Next topic: topic-001 — Scalable front-end architecture.
-- Next action: Clarify interview stage/date and available preparation time (and the application-closing year); then begin coaching if the candidate wishes.
+- Next topic: topic-002 — Browser performance, accessibility, UX, and async rendering.
+- Next action: In a new practice, interpret a browser performance trace and independently diagnose long tasks, rerenders, layout/paint, and interaction latency; then practice accessibility diagnosis and verify the CV performance claim. Clarify interview stage/date and available preparation time (and the application-closing year) later.
 
 ## Topics
 
@@ -20,11 +20,12 @@
 - Rationale / job requirements: Core requirement to lead hands-on architecture for high-traffic customer applications.
 - Expected depth and role-specific objectives: Senior architectural judgment with hands-on React SSR/MFE decisions for high-traffic airline customer journeys: composition/boundaries, state, hydration/caching, safe resilient deployment, and security/privacy of data flows. Include design-system ownership and cross-repository component boundaries.
 - Completion criteria: Independently design a realistic high-traffic Qantas booking/customer flow and explain alternatives, boundaries, state/hydration/caching, failure modes, safe deployment, data/security/privacy, and measurable tradeoffs; ground claims in a specific CV project with individual contribution made clear.
-- Status: planned
-- Evidence: none
-- Next action: Probe the CSIRO MFE and torch-relay SSR examples, then practice a high-traffic customer-flow design.
+- Status: in-progress
+- Evidence: [practice 2026-10-04-01](sessions/2026-10-04-01.md#turn-001), [turn-002](sessions/2026-10-04-01.md#turn-002)
+- Next action: In a new practice, probe privacy-safe cache keys/isolation, fare freshness and booking-time validation, spike scaling, failure/deployment choices, and the CSIRO MFE or torch-relay SSR example with individual contribution and measurement.
 - Last updated: 2026-10-04
-- Status history: 2026-10-04, created as planned for new target; no evaluated practice.
+- Status history: 2026-10-04, created as planned for new target; no evaluated practice. 2026-10-04, planned -> in-progress after genuine unassisted architectural attempt (practice 2026-10-04-01, turn-001); completion criteria remain open. 2026-10-04, retained in-progress after unassisted cache/privacy follow-up (practice 2026-10-04-01, turn-002); customer-specific caching was recognized, but isolation, freshness, scaling, validation, measurement, broader architecture, and project evidence remain open.
+- First encounter: sessions/2026-10-04-01.md#turn-001
 
 ## topic-002 — Browser performance, accessibility, UX, and async rendering
 
@@ -38,11 +39,12 @@
 - Rationale / job requirements: JD emphasizes customer experience, browser performance, accessibility, and asynchronous/multithreaded code.
 - Expected depth and role-specific objectives: Senior diagnosis using suitable user and lab metrics/Web Vitals, browser rendering and main-thread knowledge, and demonstrable WCAG testing/mitigation; verify rather than repeat CV impact claims.
 - Completion criteria: Independently diagnose a realistic slow or inaccessible customer journey, select measurements, explain browser bottlenecks and accessibility checks/fixes, and support impact with verified, quantified evidence (including probing scope/attribution of the CSIRO claim).
-- Status: planned
-- Evidence: none
-- Next action: Practice a measured performance/accessibility diagnosis; verify the CSIRO before/after claim and personal contribution.
+- Status: needs-review
+- Evidence: [practice 2026-10-04-02](sessions/2026-10-04-02.md#turn-001), [turn-002](sessions/2026-10-04-02.md#turn-002)
+- Next action: Practice interpreting a Performance panel trace for long main-thread tasks, rerenders, style/layout/paint, and interaction latency; then cover field/real-device measurements, accessibility, and verify the CSIRO before/after claim and personal contribution.
 - Last updated: 2026-10-04
-- Status history: 2026-10-04, created as planned for new target; no evaluated practice.
+- Status history: 2026-10-04, created as planned for new target; no evaluated practice. 2026-10-04, planned -> in-progress after a meaningful unassisted mobile browser-diagnosis attempt (practice 2026-10-04-02, turn-001); initial lab tools and API-versus-rendering isolation were identified, while field/real-device metrics, Web Vitals, trace/main-thread diagnosis, accessibility, and verified impact remain open. 2026-10-04, in-progress -> needs-review after unassisted focused trace follow-up (practice 2026-10-04-02, turn-002) did not identify the performance-trace evidence needed to diagnose the freeze despite fast APIs; prior turn-001 strengths retained and criteria remain open.
+- First encounter: sessions/2026-10-04-02.md#turn-001
 
 ## topic-003 — Senior leadership, ownership, and behavioral evidence
 
@@ -125,3 +127,9 @@ records have been saved successfully.
 | --- | --- | --- | --- | --- |
 | prep-qantas-20261004-01 | 2026-10-04 | merge-plan | role-001 | Added Qantas target and six planned topics (topic-001–topic-006); no practice evidence. |
 | prep-qantas-20261004-001 | 2026-10-04 | merge-plan | role-001 | Merged supplied CV/JD context into the existing Qantas target; refined six existing canonical topics (topic-001–topic-006); all remain planned with no practice evidence. |
+| practice-qantas-architecture-20261004-01:turn-001:open:001 | 2026-10-04 | open-practice | role-001 / 2026-10-04-01 | Opened coaching practice on topic-001 with turn-001 pending; recorded first encounter, no answer evidence or status change. |
+| 2026-10-04-01:turn-001:answer-and-followup:001 | 2026-10-04 | checkpoint | role-001 / 2026-10-04-01 | Recorded unassisted turn-001 answer, moved topic-001 to in-progress with criteria open, and saved turn-002 cache/privacy follow-up pending. |
+| 2026-10-04-01:turn-002:close:001 | 2026-10-04 | close-practice | role-001 / 2026-10-04-01 | Recorded unassisted turn-002 answer, retained topic-001 in-progress with criteria open, and finished practice with recap and no pending question. |
+| practice-qantas-performance-20261004-02:turn-001:open:001 | 2026-10-04 | open-practice | role-001 / 2026-10-04-02 | Opened coaching practice on topic-002 with turn-001 pending; recorded first encounter, no answer evidence or status change. |
+| 2026-10-04-02:turn-001:answer-and-followup:001 | 2026-10-04 | checkpoint | role-001 / 2026-10-04-02 | Recorded unassisted turn-001 answer, moved topic-002 to in-progress with criteria open, and saved turn-002 trace-diagnosis follow-up pending. |
+| 2026-10-04-02:turn-002:close:001 | 2026-10-04 | close-practice | role-001 / 2026-10-04-02 | Recorded unassisted turn-002 answer, moved topic-002 to needs-review due to the trace-diagnosis gap, and finished practice with recap and no pending question. |
